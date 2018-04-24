@@ -1,0 +1,46 @@
+{
+	"version": 1,
+	"graph":{
+		"items":{
+			"0": {
+				"type": "box",
+				"rect":{
+					"x": 0,
+					"y": 0,
+					"w": 0,
+					"h": 0,
+				},
+				"text": "Hello",
+				"style": "box"
+			},
+			"1": {
+				"type": "line",
+				"style": "none",
+				"begin_style": "none",
+				"end_style": "arrow",
+				"points": [
+					{
+						"x": 0,
+						"y": 0
+					},
+					{
+						"x": 100,
+						"y": 200
+					}
+				]
+			}
+		},
+		"links":[
+			{
+				"item1":{
+					"id": 0
+				},
+				"item2":{
+					"id": 1,
+					"index": 0
+				}
+			}
+		]
+	}
+}
+

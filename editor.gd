@@ -12,6 +12,10 @@ var LineScene = load("res://line.tscn")
 const MODE_BOX = 0
 const MODE_LINE = 1
 
+const ZOOM_FACTOR = 1.5
+
+onready var _camera = get_node("Camera2D")
+
 var _mode = MODE_BOX
 var _current_line = null
 var _hover_items = {}
@@ -95,14 +99,51 @@ func _unhandled_input(event):
 								else:
 									_current_line.remove_point(_current_line.get_point_count() - 1)
 									_current_line = null
-
+		
 	elif event is InputEventMouseMotion:
 		match _mode:
 			MODE_LINE:
 				if _current_line != null:
 					var mpos = get_global_mouse_position()
 					_current_line.set_end_pos(mpos)
-		
+
+
+func _input(event):
+	if event is InputEventMouseButton:
+		match event.button_index:
+			
+			BUTTON_WHEEL_UP:
+				_zoom(1.0 / ZOOM_FACTOR, get_global_mouse_position())
+			
+			BUTTON_WHEEL_DOWN:
+				_zoom(ZOOM_FACTOR, get_global_mouse_position())
+	
+	elif event is InputEventMouseMotion:
+		if Input.is_mouse_button_pressed(BUTTON_MIDDLE):
+			var rel = event.relative
+			var wrel = screen_to_world_vector(rel)
+			_camera.set_target_pos(_camera.position - wrel)
+
+
+func _zoom(factor, pivot):
+	var dpos = (pivot - _camera.position) * (1.0 - factor)
+	_camera.tween_to_zoom(_camera.position + dpos, _camera.zoom * factor)
+
+
+func screen_to_world_position(pos):
+	return get_canvas_transform().affine_inverse().xform(pos)
+
+
+func screen_to_world_vector(v):
+	return get_canvas_transform().affine_inverse().basis_xform(v)
+
+
+#func get_view_rect():
+#	var screen_rect = get_viewport_rect()
+#	var min_pos = screen_to_world_position(screen_rect.position)
+#	var max_pos = screen_to_world_position(screen_rect.end)
+#	return Rect2(min_pos, max_pos - min_pos)
+
 
 func try_attach_control_point(line, i):
 	if not _hover_items.empty():

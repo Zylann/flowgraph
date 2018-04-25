@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://main.gd" type="Script" id=1]
+[ext_resource path="res://editor.gd" type="Script" id=1]
 
-[node name="Canvas" type="Node2D"]
+[node name="Canvas" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Focus", "Margin", "Mouse" ]

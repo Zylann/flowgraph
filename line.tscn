@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://line.gd" type="Script" id=1]
+
+[node name="Line" type="Node2D" groups=[
+"lines",
+]]
+
+z_index = -1
+script = ExtResource( 1 )
+_sections_unfolded = [ "Z Index" ]
+
+[node name="Mid" type="Line2D" parent="." index="0"]
+
+points = PoolVector2Array(  )
+width = 5.0
+default_color = Color( 0.4, 0.5, 1, 1 )
+sharp_limit = 2.0
+round_precision = 8
+
+

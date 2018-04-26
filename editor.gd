@@ -19,7 +19,7 @@ onready var _camera = get_node("Camera2D")
 var _mode = MODE_BOX
 var _current_line = null
 var _hover_items = {}
-
+var _context_menu = null
 var _graph = null
 
 
@@ -117,6 +117,10 @@ func _input(event):
 			
 			BUTTON_WHEEL_DOWN:
 				_zoom(ZOOM_FACTOR, get_global_mouse_position())
+			
+			BUTTON_RIGHT:
+				if _current_line == null:
+					_open_context_menu(get_global_mouse_position())
 	
 	elif event is InputEventMouseMotion:
 		if Input.is_mouse_button_pressed(BUTTON_MIDDLE):
@@ -198,3 +202,11 @@ func get_item_from_collider(col):
 		col = col.get_parent()
 	return null
 
+# TODO Fix it
+func _open_context_menu(pos):
+	if _context_menu != null:
+		_context_menu.queue_free()
+	_context_menu = PopupMenu.new()
+	add_child(_context_menu)
+	_context_menu.rect_position = pos
+	_context_menu.popup()

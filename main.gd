@@ -7,4 +7,5 @@ onready var _editor = get_node("Canvas")
 
 func _ready():
 	_menu.connect("mode_selected", _editor, "set_mode")
+	_editor.set_screen_layer(_menu.get_parent())
 

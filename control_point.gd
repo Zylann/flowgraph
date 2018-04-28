@@ -15,7 +15,6 @@ func _ready():
 func set_line(line, index):
 	_line = line
 	_line_index = index
-	set_notify_transform(true)
 
 
 func destroy():
@@ -23,7 +22,6 @@ func destroy():
 	canvas.remove_item(self)
 	if _box != null:
 		_box.remove_attached_control_point(self)
-	set_notify_transform(false)
 	queue_free()
 
 
@@ -41,15 +39,9 @@ func detach_from_box():
 func update_attached_pos():
 	var rs = _box.rect_size
 	position = _box.rect_position + 0.5 * rs
+	_update_line()
 
 
-func _notification(what):
-	if what == CanvasItem.NOTIFICATION_TRANSFORM_CHANGED:
-		_line.set_point_pos(_line_index, position, false)
-
-#func _gui_input(event):
-#	if event is InputEventMouseMotion:
-#		if Input.is_mouse_button_pressed(BUTTON_LEFT):
-#			# TODO Convert to canvas coordinates
-#			rect_position += event.relative
-
+func _update_line():
+	_line.set_point_pos(_line_index, position, false)	
+	# Don't use NOTIFICATION_TRANSFORM_CHANGED for that purpose. Makes things hard to control.
